@@ -1,7 +1,11 @@
 {
-  "name": "worker-name",
-  "compatibility_date": "2026-01-11",
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "main": ".open-next/worker.js",
+  "name": "my-app",
+  "compatibility_date": "2026-01-10",
+  "compatibility_flags": ["nodejs_compat"],
   "assets": {
-    "directory": "./next"
+    "directory": ".open-next/assets",
+    "binding": "ASSETS"
   }
 }
