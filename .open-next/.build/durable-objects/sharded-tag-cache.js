@@ -1,19 +1,19 @@
 globalThis.openNextDebug = false;globalThis.openNextVersion = "3.9.7";
 
-// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.1.1_@babel+core@7.28.5_react-dom@19.2.3_react@19._4dfd31312b4f465db82f09fd483b639b/node_modules/@opennextjs/cloudflare/dist/api/durable-objects/sharded-tag-cache.js
+// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.0.10_@babel+core@7.28.5_react-dom@19.2.3_react@19_0df8caf507ddb073444760fa10f5db09/node_modules/@opennextjs/cloudflare/dist/api/durable-objects/sharded-tag-cache.js
 import { DurableObject } from "cloudflare:workers";
 
-// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.1.1_@babel+core@7.28.5_react-dom@19.2.3_react@19._4dfd31312b4f465db82f09fd483b639b/node_modules/@opennextjs/cloudflare/dist/api/cloudflare-context.js
+// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.0.10_@babel+core@7.28.5_react-dom@19.2.3_react@19_0df8caf507ddb073444760fa10f5db09/node_modules/@opennextjs/cloudflare/dist/api/cloudflare-context.js
 var cloudflareContextSymbol = Symbol.for("__cloudflare-context__");
 
-// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.1.1_@babel+core@7.28.5_react-dom@19.2.3_react@19._4dfd31312b4f465db82f09fd483b639b/node_modules/@opennextjs/cloudflare/dist/api/overrides/internal.js
+// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.0.10_@babel+core@7.28.5_react-dom@19.2.3_react@19_0df8caf507ddb073444760fa10f5db09/node_modules/@opennextjs/cloudflare/dist/api/overrides/internal.js
 var debugCache = (name, ...args) => {
   if (process.env.NEXT_PRIVATE_DEBUG_CACHE) {
     console.log(`[${name}] `, ...args);
   }
 };
 
-// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.1.1_@babel+core@7.28.5_react-dom@19.2.3_react@19._4dfd31312b4f465db82f09fd483b639b/node_modules/@opennextjs/cloudflare/dist/api/durable-objects/sharded-tag-cache.js
+// node_modules/.pnpm/@opennextjs+cloudflare@1.14.8_next@16.0.10_@babel+core@7.28.5_react-dom@19.2.3_react@19_0df8caf507ddb073444760fa10f5db09/node_modules/@opennextjs/cloudflare/dist/api/durable-objects/sharded-tag-cache.js
 var DOShardedTagCache = class extends DurableObject {
   sql;
   constructor(state, env) {
