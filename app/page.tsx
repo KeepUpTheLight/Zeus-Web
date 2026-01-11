@@ -1,65 +1,88 @@
-import Image from "next/image";
+"use client";
+
+import StudyCalendar from "@/components/StudyCalendar";
+import { supabase } from "@/lib/supabase";
+import type { Post } from "@/types/post";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home() {
+  const [posts, setPosts] = useState<Post[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const examDate = new Date("2026-03-01");
+  const today = new Date();
+  const diffTime = examDate.getTime() - today.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      const { data, error } = await supabase
+        .from<"posts", Post>("posts")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.error("Error fetching posts:", error);
+      } else {
+        setPosts(data ?? []);
+      }
+
+      setLoading(false);
+    };
+
+    fetchPosts();
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="flex h-full items-center justify-center min-h-[50vh]">
+        <div className="text-center">
+          <div className="w-12 h-12 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+          <p className="text-slate-400">공부 기록을 불러오는 중...</p>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
+    <div className="max-w-4xl mx-auto">
+      <header className="mb-8 text-center">
+        <h1 className="text-3xl font-bold text-slate-100">...</h1>
+      </header>
+
+      <section className="mb-8">
+        <StudyCalendar posts={posts} />
+      </section>
+
+      <section className="bg-slate-900 rounded-xl border border-slate-800 p-8 text-center mb-8">
+        <h2 className="text-lg font-medium text-slate-400 mb-2">시험까지</h2>
+        <div className="text-6xl font-black text-blue-500 tracking-tight my-4 drop-shadow-[0_0_15px_rgba(59,130,246,0.5)]">
+          D-{diffDays}
         </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
+        <p className="text-slate-500 text-sm">
+          {examDate.toLocaleDateString("ko-KR", {
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+          })}{" "}
+          시험 날
+        </p>
+      </section>
+
+      <div className="grid grid-cols-2 gap-4">
+        <Link
+          href="/board"
+          className="flex flex-col items-center justify-center p-6 bg-slate-800 rounded-xl border border-slate-700 hover:bg-slate-700 transition"
+        >
+          <span className="text-2xl mb-2">📖</span>
+          <span className="text-slate-200 font-medium">기록 보러 가기</span>
+        </Link>
+        <button className="flex flex-col items-center justify-center p-6 bg-blue-900/20 rounded-xl border border-blue-800 hover:bg-blue-900/40 transition">
+          <span className="text-2xl mb-2">⚡</span>
+          <span className="text-blue-400 font-medium">오늘 공부 시작</span>
+        </button>
+      </div>
     </div>
   );
 }
